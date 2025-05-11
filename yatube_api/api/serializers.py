@@ -28,15 +28,6 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'text', 'pub_date', 'author', 'image', 'group')
-        
-    def validate(self, data):
-        request = self.context.get('request')
-        if request and not request.user.is_authenticated:
-            raise ValidationError(
-                {"error": "Authentication required"},
-                code=status.HTTP_401_UNAUTHORIZED
-            )
-        return data 
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -50,15 +41,6 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'author', 'post', 'text', 'created')
-        
-    # def validate(self, data):
-    #     request = self.context.get('request')
-    #     if request and not request.user.is_authenticated:
-    #         raise ValidationError(
-    #             {"error": "Authentication required"},
-    #             code=status.HTTP_401_UNAUTHORIZED
-    #         )
-    #     return data
         
 
 class GroupSerializer(serializers.ModelSerializer):
