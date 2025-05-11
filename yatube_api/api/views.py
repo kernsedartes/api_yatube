@@ -1,15 +1,9 @@
-# from django.shortcuts import render
-# from rest_framework import viewsets
-# from posts.models import Post
-# # Create your views here.
-
-# class PostView(viewsets.ModelViewSet):
-#     queryset = Post.objects.all()
-
 from rest_framework import viewsets, permissions
-from rest_framework.exceptions import PermissionDenied
 from posts.models import Post, Group, Comment, User
-from .serializers import PostSerializer, GroupSerializer, CommentSerializer, UserSerializer
+from .serializers import (
+    PostSerializer, GroupSerializer,
+    CommentSerializer, UserSerializer
+)
 
 
 class IsAuthorOrReadOnly(permissions.BasePermission):
@@ -31,8 +25,8 @@ class PostViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    
-    
+
+
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
