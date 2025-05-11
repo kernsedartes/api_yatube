@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions
+from django.shortcuts import get_object_or_404
 from posts.models import Post, Group, Comment, User
 from .serializers import (
     PostSerializer, GroupSerializer,
@@ -40,7 +41,10 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Comment.objects.filter(post_id=self.kwargs['post_id'])
 
     def perform_create(self, serializer):
-        serializer.save(
-            author=self.request.user,
-            post_id=self.kwargs['post_id']
-        )
+        post = get_object_or_404(Post, pk=self.kwargs['post_id'])
+        
+        if post and self.kwargs['post_id']:
+            serializer.save(
+                author=self.request.user,
+                post_id=self.kwargs['post_id']
+            )
